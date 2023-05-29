@@ -3,6 +3,10 @@ import LoginPage from "@/pages/LoginPage";
 import {createRouter, createWebHistory} from "vue-router";
 import DashboardPage from "@/pages/DashboardPage";
 import DemoPage from "@/pages/DemoPage";
+import store from "@/store";
+import ProfilePage from "@/pages/ProfilePage";
+import ExamplesPage from "@/pages/ExamplesPage";
+import RegisterPage from "@/pages/RegisterPage";
 
 const routes = [
     {
@@ -24,25 +28,37 @@ const routes = [
         path: "/demo",
         component: DemoPage,
         name: "Demo",
+    },
+    {
+        path: "/profile",
+        component: ProfilePage,
+        name: "ProfilePage",
+    },
+    {
+        path: "/examples",
+        component: ExamplesPage,
+        name: "ExamplesPage",
+    },
+    {
+        path: "/register",
+        component: RegisterPage,
+        name: "RegisterPage",
     }
 ]
 
 const router = createRouter({
     routes,
     history: createWebHistory(process.env.BASE_URL),
+    linkActiveClass: "active",
 })
-
-const isAuth = true;
 
 router.beforeEach(async (to, from) => {
     if (
-        !isAuth &&
-        to.name !== "Login" &&
-        to.name !== "Start"
+        !store.getters.getIsAuth &&
+        to.name !== 'Login' &&
+        to.name !== 'RegisterPage'
     ) {
-        return {
-            name: "Login"
-        }
+        return { name: 'Login' }
     }
 })
 

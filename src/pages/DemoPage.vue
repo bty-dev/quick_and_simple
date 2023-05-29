@@ -1,12 +1,12 @@
 <template>
   <div class="main">
-    <div class="header">
+    <div class="header" v-if="this.$store.state.isHeader" :style="{'background-color': headerColor.value}">
       Header example
       <div class="menu__item">
         Menu item
       </div>
     </div>
-    <div class="content">
+    <div class="content" v-if="this.$store.state.isMain">
       Main content example
       <div class="content__title">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dolor dolorem, ex libero magni nam veniam voluptate? Quo repellat sunt tempore vitae voluptas. Dolores eos pariatur perferendis quia rerum vitae? </div>
     </div>
@@ -16,10 +16,25 @@
       <div class="benefit__item">Benefit</div>
       <div class="benefit__item">Benefit</div>
     </div>
+    <div class="footer">
+      <div class="footer__desc">
+        Footer example
+      </div>
+      <div class="footer__links">
+        <a class="footer__link" target="_blank" v-for="link in footerLinks" :href="link">
+          <a target="_blank" class="inner">
+
+          </a>
+        </a>
+      </div>
+    </div>
     <div @click="toggleOpen" class="edit">✎</div>
     <div v-if="isOpen" class="modal">
       <div class="modal__content">
-        Benefits block <input v-model="isBenefits" id="benefitsCheckbox" type="checkbox">
+       <Accordion title="Header" :items="benefitsItems"/>
+       <Accordion title="Main" :items="benefitsItems"/>
+       <Accordion title="Benefits" :items="benefitsItems"/>
+       <Accordion title="Footer" :items="benefitsItems"/>
       </div>
       <div @click="toggleOpen" class="close">╳</div>
     </div>
@@ -27,26 +42,50 @@
 </template>
 
 <script>
-import {ref} from "vue";
+import {computed, onMounted, onUpdated, ref} from "vue";
+import Accordion from "@/components/Accordion";
+import {useStore} from "vuex";
+import store from "@/store";
 
 export default {
-setup() {
+  components: {Accordion},
+  setup() {
+  const store = useStore();
+
+  const footerLinks = ref(store.state.footerLinks);
+
   const isOpen = ref(false);
   const toggleOpen = () => {
     isOpen.value = !isOpen.value;
   }
 
   const isBenefits = ref(true);
-
+  
   const toggleBenefits = () => {
     isBenefits.value = !isBenefits.value;
   }
+
+  const benefitsItems = ref([
+    "Enable block", "Color pick", "Link"
+  ])
+
+  const headerColor = ref(store.state.headerColor);
+
+  onUpdated(() => {
+    headerColor.value = ref(store.state.headerColor);
+  })
+  onMounted(() => {
+    headerColor.value = ref(store.state.headerColor);
+  })
 
   return {
     isOpen,
     toggleOpen,
     isBenefits,
     toggleBenefits,
+    benefitsItems,
+    headerColor,
+    footerLinks,
   }
 }
 }
@@ -128,18 +167,59 @@ setup() {
   border: 2px solid #fff;
   border-radius: 20px;
   width: 30%;
-  height: 40%;
+  height: 30%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 50px 100px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 50px 50px;
 }
 .close {
   font-size: 40px;
   cursor: pointer;
   position: absolute;
-  right: 600px;
+  right: 450px;
   top: 300px;
+}
+.footer {
+  padding: 50px 0;
+  width: 100%;
+  background-color: #000;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.footer__desc {
+  color: #fff;
+  font-size: 50px;
+}
+.footer__links {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.footer__link {
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background-color: transparent;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footer__link:hover .inner {
+  display: flex;
+}
+.inner {
+  background-color: #fff;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  margin: auto;
+  display: none;
 }
 </style>

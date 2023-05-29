@@ -7,8 +7,9 @@
         </div>
         <div class="menu">
           <div class="menu__item" @click="$router.push('/dashboard')">Dashboard</div>
-          <div class="menu__item">Examples</div>
+          <div class="menu__item" @click="$router.push('/examples')">Examples</div>
           <div class="menu__item">About</div>
+          <div class="menu__item" @click="$router.push('/profile')">Profile</div>
           <div class="menu__item" @click="$router.push('/login')">Login</div>
         </div>
       </nav>
@@ -84,5 +85,9 @@ export default {
 .menu__item:hover::after {
   transform: scaleX(1);
   transform-origin: bottom left;
+}
+.menu__item.active {
+  opacity: 1;
+  text-decoration: underline;
 }
 </style>

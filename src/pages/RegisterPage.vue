@@ -3,8 +3,8 @@
     <div class="wrapper">
       <div class="content">
         <div class="card">
-          <div class="title">Login</div>
-          <div class="subtitle">Enter your credentials to access account</div>
+          <div class="title">Registration</div>
+          <div class="subtitle">Enter your credentials to create an account</div>
           <div class="form__controls">
             <label for="login">Login</label>
             <input v-model="login" type="text" id="login">
@@ -15,8 +15,7 @@
             <input v-model="password" type="password" id="password">
             <small v-if="!valid">Incorrect data!</small>
           </div>
-          <button @click="auth" class="btn">Login</button>
-          <router-link to="/register" class="hint">Do not have account?</router-link>
+          <button @click="register" class="btn">Register!</button>
         </div>
       </div>
     </div>
@@ -39,8 +38,8 @@ export default {
 
     const valid = ref(true);
 
-    const auth = () => {
-      axios.post("http://localhost:5000/api/login", {
+    const register = () => {
+      axios.post("http://localhost:5000/api/register", {
         login: login.value,
         password: password.value
       })
@@ -58,7 +57,7 @@ export default {
     return {
       login,
       password,
-      auth,
+      register,
       valid
     }
   }
@@ -160,16 +159,5 @@ small {
   width: 100%;
   text-align: center;
   margin-top: 3px;
-}
-.hint {
-  margin: 30px auto -10px auto;
-   cursor: pointer;
-  font-size: 20px;
-  color: #fff;
-  text-decoration: none;
-  transition: .2s;
-}
-.hint:hover {
-  opacity: .6;
 }
 </style>

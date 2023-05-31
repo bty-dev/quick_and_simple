@@ -2,7 +2,7 @@
   <div class="main">
     <div class="wrapper">
       <div class="content">
-        <div class="title">Examples of landings made's with out constructor</div>
+        <div class="title">Examples of landings made's with our constructor</div>
         <div class="list">
           <div class="card" @click="linkHandler">
             <div class="card_desc">

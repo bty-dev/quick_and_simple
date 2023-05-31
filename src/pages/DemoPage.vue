@@ -29,6 +29,7 @@
       </div>
     </div>
     <div @click="toggleOpen" class="edit">✎</div>
+    <div @click="goBack" class="back"><img class="arrow" src="../assets/arrow.png"/></div>
     <div v-if="isOpen" class="modal">
       <div class="modal__content">
        <Accordion title="Header" :items="benefitsItems"/>
@@ -46,11 +47,13 @@ import {computed, onMounted, onUpdated, ref} from "vue";
 import Accordion from "@/components/Accordion";
 import {useStore} from "vuex";
 import store from "@/store";
+import {useRouter} from "vue-router";
 
 export default {
   components: {Accordion},
   setup() {
   const store = useStore();
+  const router = useRouter();
 
   const footerLinks = ref(store.state.footerLinks);
 
@@ -78,6 +81,10 @@ export default {
     headerColor.value = ref(store.state.headerColor);
   })
 
+    const goBack = () => {
+      router.push("/dashboard");
+    }
+
   return {
     isOpen,
     toggleOpen,
@@ -86,6 +93,7 @@ export default {
     benefitsItems,
     headerColor,
     footerLinks,
+    goBack,
   }
 }
 }
@@ -136,6 +144,25 @@ export default {
   font-size: 40px;
 }
 .edit:hover {
+  box-shadow: 0 5px 15px rgba(255, 255, 255, .5);
+}
+.back {
+  cursor: pointer;
+  position: fixed;
+  left: 50px;
+  top: 30px;
+  background-color: #0f0f0f;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  font-size: 40px;
+  transition: .2s;
+}
+.back:hover {
   box-shadow: 0 5px 15px rgba(255, 255, 255, .5);
 }
 .benefits {
@@ -221,5 +248,10 @@ export default {
   height: 18px;
   margin: auto;
   display: none;
+}
+.arrow {
+  width: 20px;
+  height: 20px;
+  -webkit-filter: invert(1) contrast(500%);
 }
 </style>

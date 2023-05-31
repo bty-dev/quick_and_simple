@@ -7,7 +7,7 @@
       <div v-for="item in props.items" class="list__item">
         {{ item }}
         <input v-if="item === 'Enable block'" v-model="checked"  type="checkbox" @input="isTouched"/>
-        <input class="item__input" v-if="item === 'Color pick'" v-model="color"  type="text"/>
+        <input class="item__input" v-if="item === 'Color pick'" v-model="color"  type="color"/>
         <button class="btn__save" v-if="item === 'Color pick'" @click="toggleColor">✔</button>
         <input class="item__input" v-if="item === 'Links'"  type="checkbox"/>
       </div>

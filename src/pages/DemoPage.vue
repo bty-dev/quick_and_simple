@@ -8,7 +8,7 @@
     </div>
     <div class="content" v-if="this.$store.state.isMain">
       Main content example
-      <div class="content__title">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dolor dolorem, ex libero magni nam veniam voluptate? Quo repellat sunt tempore vitae voluptas. Dolores eos pariatur perferendis quia rerum vitae? </div>
+      <div class="content__title">{{mainText}}</div>
     </div>
     <div v-if="isBenefits" class="benefits">
       <div class="benefit__item">Benefit</div>
@@ -28,14 +28,15 @@
         </a>
       </div>
     </div>
-    <div @click="toggleOpen" class="edit">✎</div>
-    <div @click="goBack" class="back"><img class="arrow" src="../assets/arrow.png"/></div>
+    <div @click="toggleOpen" class="edit" v-if="isEditVisible">✎</div>
+    <div @click="goBack" class="back" v-if="isBackVisible"><img class="arrow" src="../assets/arrow.png"/></div>
     <div v-if="isOpen" class="modal">
       <div class="modal__content">
        <Accordion title="Header" :items="benefitsItems"/>
-       <Accordion title="Main" :items="benefitsItems"/>
+       <Accordion title="Main" :items="mainItems"/>
        <Accordion title="Benefits" :items="benefitsItems"/>
-       <Accordion title="Footer" :items="benefitsItems"/>
+       <Accordion title="Footer" :items="footerItems"/>
+        <button class="download" @click="download">Download file</button>
       </div>
       <div @click="toggleOpen" class="close">╳</div>
     </div>
@@ -57,6 +58,8 @@ export default {
 
   const footerLinks = ref(store.state.footerLinks);
 
+  const mainText = ref(store.getters.getMainText);
+
   const isOpen = ref(false);
   const toggleOpen = () => {
     isOpen.value = !isOpen.value;
@@ -69,21 +72,46 @@ export default {
   }
 
   const benefitsItems = ref([
+    "Enable block", "Color pick"
+  ])
+  const footerItems = ref([
     "Enable block", "Color pick", "Link"
   ])
+    const mainItems = ref([
+      "Enable block", "Color pick", "Edit text"
+    ])
 
   const headerColor = ref(store.state.headerColor);
 
   onUpdated(() => {
     headerColor.value = ref(store.state.headerColor);
+    mainText.value = ref(store.state.mainText);
   })
   onMounted(() => {
     headerColor.value = ref(store.state.headerColor);
+    mainText.value = ref(store.state.mainText);
   })
 
-    const goBack = () => {
-      router.push("/dashboard");
-    }
+  const goBack = () => {
+    router.push("/dashboard");
+  }
+
+  const isEditVisible = ref(true);
+  const isBackVisible = ref(true);
+
+  const download = () => {
+    isEditVisible.value = false;
+    isBackVisible.value = false;
+
+    let a  = document.createElement('a');
+    a.style.display = "none";
+    a.download = "download";
+    a.href = "http://localhost:8080/demo";
+    a.click();
+
+    isEditVisible.value = true;
+    isBackVisible.value = true;
+  }
 
   return {
     isOpen,
@@ -91,9 +119,15 @@ export default {
     isBenefits,
     toggleBenefits,
     benefitsItems,
+    footerItems,
     headerColor,
     footerLinks,
     goBack,
+    download,
+    isEditVisible,
+    isBackVisible,
+    mainItems,
+    mainText,
   }
 }
 }
@@ -194,12 +228,13 @@ export default {
   border: 2px solid #fff;
   border-radius: 20px;
   width: 30%;
-  height: 30%;
+  height: 40%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   padding: 50px 50px;
+  overflow-y: scroll;
 }
 .close {
   font-size: 40px;
@@ -253,5 +288,25 @@ export default {
   width: 20px;
   height: 20px;
   -webkit-filter: invert(1) contrast(500%);
+}
+.download {
+  margin-top: 50px;
+  width: 100%;
+  font-weight: 700;
+  outline: none;
+  background-color: transparent;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;;
+}
+.download:hover {
+  background-color: #fff;
+  border-color: transparent;
+  color: #000;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, .4);
 }
 </style>

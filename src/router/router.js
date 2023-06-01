@@ -7,6 +7,7 @@ import store from "@/store";
 import ProfilePage from "@/pages/ProfilePage";
 import ExamplesPage from "@/pages/ExamplesPage";
 import RegisterPage from "@/pages/RegisterPage";
+import AbouPage from "@/pages/AbouPage";
 
 const routes = [
     {
@@ -43,6 +44,11 @@ const routes = [
         path: "/register",
         component: RegisterPage,
         name: "RegisterPage",
+    },
+    {
+        path: "/about",
+        component: AbouPage,
+        name: "AbouPage",
     }
 ]
 

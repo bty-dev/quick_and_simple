@@ -1,5 +1,5 @@
 <template>
-  <Navbar/>
+  <Navbar v-if="$route.path !== '/demo'"/>
   <router-view>
   </router-view>
 </template>
@@ -12,6 +12,9 @@ export default {
   components: {LoginPage, StartPage, Navbar},
   setup() {
 
+
+    return {
+    }
   }
 }
 </script>

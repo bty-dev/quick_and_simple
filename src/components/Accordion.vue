@@ -9,6 +9,8 @@
         <input v-if="item === 'Enable block'" v-model="checked"  type="checkbox" @input="isTouched"/>
         <input class="item__input" v-if="item === 'Color pick'" v-model="color"  type="color"/>
         <button class="btn__save" v-if="item === 'Color pick'" @click="toggleColor">✔</button>
+        <input class="item__input" v-if="item === 'Edit text'" v-model="mainText"  type="text"/>
+        <button class="btn__save" v-if="item === 'Edit text'" @click="changeText">✔</button>
         <input class="item__input" v-if="item === 'Links'"  type="checkbox"/>
       </div>
     </div>
@@ -30,7 +32,7 @@ export default {
     const checked = ref(true);
     const color = ref(store.state.headerColor);
     const isOpen = ref(false);
-
+    const mainText = ref(store.state.mainText);
     const isTouched = () => {
       if (props.title === "Header") store.dispatch("setHeader", !store.state.isHeader)
       else if (props.title === "Main") store.dispatch("setMain", !store.state.isMain)
@@ -42,6 +44,12 @@ export default {
       if (props.title === "Header") store.dispatch("setHeader", !store.state.isHeader)
     }
 
+    const changeText = () => {
+      store.dispatch("setMainText", mainText.value);
+      if (props.title === "Main") store.dispatch("setMain", !store.state.isMain)
+      if (props.title === "Main") store.dispatch("setMain", !store.state.isMain)
+    }
+
     return {
       props,
       isOpen,
@@ -49,6 +57,8 @@ export default {
       checked,
       color,
       toggleColor,
+      changeText,
+      mainText
     }
   }
 }

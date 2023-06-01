@@ -8,6 +8,7 @@ const store = createStore({
             isHeader: true,
             headerColor: "#46474a",
             isMain: true,
+            mainText: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dolor dolorem, ex libero magni nam veniam voluptate? Quo repellat sunt tempore vitae voluptas. Dolores eos pariatur perferendis quia rerum vitae? ",
             footerLinks: [
                 "https://www.google.com/search?q=adas",
                 "https://www.google.com/search?q=adas",
@@ -30,6 +31,9 @@ const store = createStore({
         },
         getFooterLinks(state) {
             return state.footerLinks;
+        },
+        getMainText(state) {
+            return state.mainText;
         }
     },
     mutations: {
@@ -47,6 +51,9 @@ const store = createStore({
         },
         setFooterLinks(state, payload) {
             state.footerLinks = payload;
+        },
+        setMainText(state, payload) {
+            state.mainText = payload;
         }
     },
     actions: {
@@ -64,6 +71,9 @@ const store = createStore({
         },
         setFooterLinks(context, payload) {
             context.commit("setFooterLinks", payload);
+        },
+        setMainText(context, payload) {
+            context.commit("setMainText", payload);
         }
     }
 })

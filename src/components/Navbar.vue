@@ -8,7 +8,7 @@
         <div class="menu">
           <div class="menu__item" @click="$router.push('/dashboard')">Dashboard</div>
           <div class="menu__item" @click="$router.push('/examples')">Examples</div>
-          <div class="menu__item">About</div>
+          <div class="menu__item" @click="$router.push('/about')">About</div>
           <div class="menu__item" @click="$router.push('/profile')">Profile</div>
           <div class="menu__item" @click="$router.push('/login')">Login</div>
         </div>

@@ -6,21 +6,26 @@
         <div class="profile__info">
           <label for="name">Name:</label>
           <div class="inp">
-            <input v-model="name" type="text" id="name" :disabled="!isEditable">
-            <div v-if="!isEditable" class="edit__btn" @click="editHandler">Edit ✎</div>
-            <div v-if="isEditable" class="edit__btn" @click="saveHandler">Save ✔</div>
+            <input
+              v-model="name"
+              type="text"
+              id="name"
+              :disabled="!isEditable"
+            />
+            <div v-if="!isEditable" class="edit__btn" @click="editHandler">
+              Edit ✎
+            </div>
+            <div v-if="isEditable" class="edit__btn" @click="saveHandler">
+              Save ✔
+            </div>
           </div>
-
+          <small style="color: red">Incorrect data!</small>
         </div>
-        <div class="subtitle">
-          Stats
-        </div>
+        <div class="subtitle">Stats</div>
         <div class="stats__block">
+          <div class="stats__item">Total projets: {{ totalProjects }}</div>
           <div class="stats__item">
-            Total projets: {{totalProjects}}
-          </div>
-          <div class="stats__item">
-            Deployed projets: {{deployedProjects}}
+            Deployed projets: {{ deployedProjects }}
           </div>
         </div>
       </div>
@@ -29,7 +34,7 @@
 </template>
 
 <script>
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import axios from "axios";
 
 export default {
@@ -41,34 +46,33 @@ export default {
 
     const editHandler = () => {
       isEditable.value = true;
-    }
+    };
 
     const saveHandler = () => {
       isEditable.value = false;
 
       axios.post("http://localhost:5000/api/changeUserName/1", {
-        newName: name.value
-      })
-    }
+        newName: name.value,
+      });
+    };
 
     onMounted(() => {
-      axios.get("http://localhost:5000/api/user/1")
-          .then(res => {
-            name.value = res.data.name;
-            totalProjects.value = res.data.projects;
-            deployedProjects.value = res.data.deployedProjects;
-          })
-    })
+      axios.get("http://localhost:5000/api/user/1").then((res) => {
+        name.value = res.data.name;
+        totalProjects.value = res.data.projects;
+        deployedProjects.value = res.data.deployedProjects;
+      });
+    });
     return {
       name,
       isEditable,
       editHandler,
       saveHandler,
       totalProjects,
-      deployedProjects
-    }
-  }
-}
+      deployedProjects,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -118,7 +122,7 @@ input {
   padding: 10px 15px;
   width: 80%;
   color: #fff;
-  transition: .2s;
+  transition: 0.2s;
 }
 .inp {
   width: 40%;
@@ -131,7 +135,7 @@ input {
   cursor: pointer;
   font-size: 15px;
   border: 2px solid transparent;
-  transition: .2s;
+  transition: 0.2s;
   padding: 10px 15px;
   border-radius: 12px;
 }

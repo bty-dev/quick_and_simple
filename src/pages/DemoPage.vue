@@ -1,20 +1,33 @@
 <template>
   <div class="main">
     <div class="header" v-if="this.$store.state.isHeader" :style="{'background-color': headerColor.value}">
-      Header example
+      <img class="logo" :src="this.$store.state.logo" alt="Logo">
       <div class="menu__item">
         Menu item
       </div>
     </div>
     <div class="content" v-if="this.$store.state.isMain">
-      Main content example
-      <div class="content__title">{{mainText}}</div>
+      <div class="main__col">
+        <div class="content__title">
+          Main title
+        </div>
+        <div class="content__subtitle">{{mainText}}</div>
+        <button class="btn__call">
+          <a href="tel:+9190123456" style="color: #fff; text-decoration: none">Call us!</a>
+        </button>
+      </div>
+      <div class="main__col">
+        <div v-if="mainImage === ''" class="main__image__holder">
+
+        </div>
+        <img class="main__image" :src="mainImage.value" alt="Main image" v-else>
+      </div>
     </div>
-    <div v-if="isBenefits" class="benefits">
-      <div class="benefit__item">Benefit</div>
-      <div class="benefit__item">Benefit</div>
-      <div class="benefit__item">Benefit</div>
-      <div class="benefit__item">Benefit</div>
+    <div v-if="this.$store.state.benefitsVisible" class="benefits benefits__title">Our partners</div>
+    <div v-if="this.$store.state.benefitsVisible" class="benefits">
+      <img class="benefit__item" alt="Partner" :src="benefitFirst.value"/>
+      <img class="benefit__item" alt="Partner" :src="benefitSecond.value"/>
+      <img class="benefit__item" alt="Partner" :src="benefitThird.value"/>
     </div>
     <div class="footer">
       <div class="footer__desc">
@@ -28,9 +41,9 @@
         </a>
       </div>
     </div>
-    <div @click="toggleOpen" class="edit" v-if="isEditVisible">✎</div>
-    <div @click="goBack" class="back" v-if="isBackVisible"><img class="arrow" src="../assets/arrow.png"/></div>
-    <div v-if="isOpen" class="modal">
+    <div @click="toggleOpen" class="edit" v-if="isEditVisible" id="edit__mark">✎</div>
+    <div @click="goBack" class="back" v-if="isBackVisible" id="back__mark"><img class="arrow" src="../assets/arrow.png"/></div>
+    <div v-if="isOpen" class="modal" id="modal">
       <div class="modal__content">
        <Accordion title="Header" :items="benefitsItems"/>
        <Accordion title="Main" :items="mainItems"/>
@@ -59,37 +72,46 @@ export default {
   const footerLinks = ref(store.state.footerLinks);
 
   const mainText = ref(store.getters.getMainText);
-
   const isOpen = ref(false);
   const toggleOpen = () => {
     isOpen.value = !isOpen.value;
   }
 
-  const isBenefits = ref(true);
-  
-  const toggleBenefits = () => {
-    isBenefits.value = !isBenefits.value;
-  }
+  const isBenefits = ref(store.state.benefitsVisible);
 
   const benefitsItems = ref([
-    "Enable block", "Color pick"
+    "Enable block", "Color pick", "Image link 1", "Image link 2", "Image link 3", "Logo pick"
   ])
   const footerItems = ref([
     "Enable block", "Color pick", "Link"
   ])
-    const mainItems = ref([
-      "Enable block", "Color pick", "Edit text"
-    ])
+  const mainItems = ref([
+    "Enable block", "Color pick", "Edit text", "Image link"
+  ])
 
   const headerColor = ref(store.state.headerColor);
-
+  const mainImage = ref(store.state.mainImage);
+  const benefitFirst = ref(store.state.benefitsImageFirst);
+  const benefitSecond = ref(store.state.benefitsImageSecond);
+  const benefitThird = ref(store.state.benefitsImageThird);
+  const logo = ref(store.state.logo);
   onUpdated(() => {
     headerColor.value = ref(store.state.headerColor);
     mainText.value = ref(store.state.mainText);
+    mainImage.value = ref(store.state.mainImage);
+    benefitFirst.value = ref(store.state.benefitsImageFirst);
+    benefitSecond.value = ref(store.state.benefitsImageSecond)
+    benefitThird.value = ref(store.state.benefitsImageThird);
+    logo.value = ref(store.state.logo);
   })
   onMounted(() => {
     headerColor.value = ref(store.state.headerColor);
     mainText.value = ref(store.state.mainText);
+    mainImage.value = ref(store.state.mainImage);
+    benefitFirst.value = ref(store.state.benefitsImageFirst);
+    benefitSecond.value = ref(store.state.benefitsImageSecond)
+    benefitThird.value = ref(store.state.benefitsImageThird);
+    logo.value = ref(store.state.logo);
   })
 
   const goBack = () => {
@@ -102,22 +124,45 @@ export default {
   const download = () => {
     isEditVisible.value = false;
     isBackVisible.value = false;
+    isOpen.value = false;
+    let edit = document.getElementById("edit__mark");
+    let back = document.getElementById("back__mark");
+    let modal = document.getElementById("modal");
 
-    let a  = document.createElement('a');
-    a.style.display = "none";
-    a.download = "download";
-    a.href = "http://localhost:8080/demo";
-    a.click();
+    const editPrev = edit.style.display;
+    const backPrev = back.style.display;
+    const modalPrev = modal.style.display;
 
+    edit.style.display = "none";
+    back.style.display = "none";
+    modal.style.display = "none";
+
+    // let a  = document.createElement('a');
+    // a.style.display = "none";
+    // a.download = "download";
+    // a.href = document.documentElement.innerHTML;
+    // console.log(document.documentElement.innerHTML)
+    // a.click();
+    let base64doc = btoa(unescape(encodeURIComponent(document.documentElement.innerHTML))),
+        a = document.createElement('a'),
+        e = new MouseEvent('click');
+
+    a.download = 'page.html';
+    a.href = 'data:text/html;base64,' + base64doc;
+    a.dispatchEvent(e);
+
+    edit.style.display = editPrev;
+    back.style.display = backPrev;
+    modal.style.display = modalPrev;
     isEditVisible.value = true;
     isBackVisible.value = true;
+    isOpen.value = true;
   }
 
   return {
     isOpen,
     toggleOpen,
     isBenefits,
-    toggleBenefits,
     benefitsItems,
     footerItems,
     headerColor,
@@ -128,6 +173,10 @@ export default {
     isBackVisible,
     mainItems,
     mainText,
+    mainImage,
+    benefitFirst,
+    benefitSecond,
+    benefitThird
   }
 }
 }
@@ -136,31 +185,41 @@ export default {
 <style scoped>
 .main {
   width: 100%;
-  height: 93vh;
   background-color: #000;
   color: #fff;
 }
 .header {
-  border: 1px solid #fff;
+  /*border: 1px solid #f0eee2;*/
+  height: 7vh;
   font-size: 20px;
-  padding: 20px 200px;
+  padding: 30px 200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #46474a;
+  background-color: #1e1a1b;
+  color: #f0eee2;
 }
 .menu__item {
   cursor: pointer;
 }
 .content {
-  background-color: #363c45;
-  height: 49%;
-  padding: 40px 200px;
+  background-color: #1e1a1b;
+  height: 93vh;
+  padding: 0px 200px;
   font-size: 80px;
+  color: #f0eee2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.content__subtitle {
+  font-size: 30px;
+  margin-right: auto;
 }
 .content__title {
-  font-size: 30px;
-  padding-top: 100px;
+  margin-bottom: 40px;
+  margin-right: auto;
 }
 .edit {
   cursor: pointer;
@@ -204,11 +263,14 @@ export default {
   padding: 30px 200px;
   justify-content: space-between;
   align-items: center;
-  background-color: #1a1e24;
+  background-color: #1e1a1b;
   height: 400px;
+  color: #f0eee2;
 }
 .benefit__item {
-  padding: 80px;
+  object-fit: contain;
+  width: 220px;
+  height: 180px;
   border: 1px solid #fff;
 }
 
@@ -246,14 +308,14 @@ export default {
 .footer {
   padding: 50px 0;
   width: 100%;
-  background-color: #000;
+  background-color: #1e1a1b;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
 }
 .footer__desc {
-  color: #fff;
+  color: #f0eee2;
   font-size: 50px;
 }
 .footer__links {
@@ -308,5 +370,58 @@ export default {
   border-color: transparent;
   color: #000;
   box-shadow: 0 5px 15px rgba(255, 255, 255, .4);
+}
+.main__col {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.main__image__holder {
+  cursor: pointer;
+  background-color: gray;
+  width: 600px;
+  height: 700px;
+  margin-left: auto;
+}
+.main__image__holder:hover {
+  opacity: .6;
+}
+.main__image {
+  width: 500px;
+  height: 700px;
+  object-fit: contain;
+}
+.btn__call{
+  margin-top: 50px;
+  width: 100%;
+  font-weight: 700;
+  outline: none;
+  background-color: transparent;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  color: #fff;
+  padding: 15px 15px;
+  font-size: 22px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;;
+}
+.btn__call:hover {
+  background-color: #fff;
+  border-color: transparent;
+  color: #000;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, .4);
+}
+.benefits__title {
+  height: unset;
+  padding: 10px 200px;
+  font-size: 40px;
+}
+.logo {
+  width: 100px;
+  height: 60px;
+  margin: 10px;
+  object-fit: contain;
 }
 </style>

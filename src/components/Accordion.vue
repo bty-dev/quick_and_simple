@@ -6,12 +6,22 @@
     <div class="list" v-if="isOpen">
       <div v-for="item in props.items" class="list__item">
         {{ item }}
+        <input v-if="item === 'Logo pick'" class="item__input" v-model="logo"  type="text"/>
+        <button v-if="item === 'Logo pick'" class="btn__save" @click="changeLogo">✔</button>
         <input v-if="item === 'Enable block'" v-model="checked"  type="checkbox" @input="isTouched"/>
         <input class="item__input" v-if="item === 'Color pick'" v-model="color"  type="color"/>
         <button class="btn__save" v-if="item === 'Color pick'" @click="toggleColor">✔</button>
         <input class="item__input" v-if="item === 'Edit text'" v-model="mainText"  type="text"/>
         <button class="btn__save" v-if="item === 'Edit text'" @click="changeText">✔</button>
+        <input class="item__input" v-if="item === 'Image link'" v-model="mainImage"  type="text"/>
+        <button class="btn__save" v-if="item === 'Image link'" @click="changeImage">✔</button>
         <input class="item__input" v-if="item === 'Links'"  type="checkbox"/>
+        <input class="item__input" v-if="item === 'Image link 1'" v-model="benefitFirst"  type="text"/>
+        <button class="btn__save" v-if="item === 'Image link 1'" @click="changeBenefitFirst">✔</button>
+        <input class="item__input" v-if="item === 'Image link 2'" v-model="benefitSecond"  type="text"/>
+        <button class="btn__save" v-if="item === 'Image link 2'" @click="changeBenefitSecond">✔</button>
+        <input class="item__input" v-if="item === 'Image link 3'" v-model="benefitThird"  type="text"/>
+        <button class="btn__save" v-if="item === 'Image link 3'" @click="changeBenefitThird">✔</button>
       </div>
     </div>
   </div>
@@ -33,9 +43,15 @@ export default {
     const color = ref(store.state.headerColor);
     const isOpen = ref(false);
     const mainText = ref(store.state.mainText);
+    const mainImage = ref(store.state.mainImage);
+    const benefitFirst = ref(store.state.benefitsImageFirst);
+    const benefitSecond = ref(store.state.benefitsImageSecond);
+    const benefitThird = ref(store.state.benefitsImageThird);
+
     const isTouched = () => {
       if (props.title === "Header") store.dispatch("setHeader", !store.state.isHeader)
       else if (props.title === "Main") store.dispatch("setMain", !store.state.isMain)
+      else if (props.title === "Benefits") store.dispatch("setBenefitsVisible", !store.state.benefitsVisible)
 
     }
     const toggleColor = () => {
@@ -50,15 +66,53 @@ export default {
       if (props.title === "Main") store.dispatch("setMain", !store.state.isMain)
     }
 
+    const changeImage = () => {
+      store.dispatch("setMainImage", mainImage.value);
+      if (props.title === "Main") store.dispatch("setMain", !store.state.isMain)
+      if (props.title === "Main") store.dispatch("setMain", !store.state.isMain)
+    }
+
+    const changeBenefitFirst = () => {
+      store.dispatch("setBenefitsFirst", benefitFirst.value);
+      store.dispatch("setBenefitsVisible", false);
+      store.dispatch("setBenefitsVisible", true);
+      console.log(benefitFirst.value)
+    }
+    const changeBenefitSecond = () => {
+      store.dispatch("setBenefitsSecond", benefitSecond.value);
+      store.dispatch("setBenefitsVisible", false);
+      store.dispatch("setBenefitsVisible", true);
+    }
+    const changeBenefitThird = () => {
+      store.dispatch("setBenefitsThird", benefitThird.value);
+      store.dispatch("setBenefitsVisible", false);
+      store.dispatch("setBenefitsVisible", true);
+    }
+
+    const changeLogo = () => {
+      store.dispatch("setLogo", logo.value)
+    }
+    const logo = ref(store.state.logo);
+
     return {
       props,
       isOpen,
       isTouched,
+      logo,
+      changeLogo,
       checked,
       color,
       toggleColor,
       changeText,
-      mainText
+      mainText,
+      mainImage,
+      changeImage,
+      benefitFirst,
+      benefitSecond,
+      benefitThird,
+      changeBenefitFirst,
+      changeBenefitSecond,
+      changeBenefitThird
     }
   }
 }

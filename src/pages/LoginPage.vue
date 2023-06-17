@@ -41,7 +41,7 @@ export default {
     const valid = ref(true);
 
     const auth = () => {
-      instance.post("http://localhost:5000/api/login", {
+      instance.post("/api/login", {
         login: login.value,
         password: password.value
       })

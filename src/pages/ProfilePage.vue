@@ -19,7 +19,6 @@
               Save ✔
             </div>
           </div>
-          <small style="color: red">Incorrect data!</small>
         </div>
         <div class="subtitle">Stats</div>
         <div class="stats__block">
@@ -36,6 +35,7 @@
 <script>
 import { onMounted, ref } from "vue";
 import axios from "axios";
+import instance from "@/api/api";
 
 export default {
   setup() {
@@ -51,13 +51,13 @@ export default {
     const saveHandler = () => {
       isEditable.value = false;
 
-      axios.post("http://localhost:5000/api/changeUserName/1", {
+      instance.post("/api/changeUserName/1", {
         newName: name.value,
       });
     };
 
     onMounted(() => {
-      axios.get("http://localhost:5000/api/user/1").then((res) => {
+      instance.get("/api/user/1").then((res) => {
         name.value = res.data.name;
         totalProjects.value = res.data.projects;
         deployedProjects.value = res.data.deployedProjects;

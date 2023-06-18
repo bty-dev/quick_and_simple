@@ -28,6 +28,7 @@ import {ref} from "vue";
 import axios from "axios";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
+import instance from "@/api/api";
 
 export default {
   setup() {
@@ -40,7 +41,7 @@ export default {
     const valid = ref(true);
 
     const auth = () => {
-      axios.post("http://45.84.225.231:5000/api/login", {
+      instance.post("/api/login", {
         login: login.value,
         password: password.value
       })

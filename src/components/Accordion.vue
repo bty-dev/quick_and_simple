@@ -11,6 +11,8 @@
         <input v-if="item === 'Enable block'" v-model="checked"  type="checkbox" @input="isTouched"/>
         <input class="item__input" v-if="item === 'Color pick'" v-model="color"  type="color"/>
         <button class="btn__save" v-if="item === 'Color pick'" @click="toggleColor">✔</button>
+        <input class="item__input" v-if="item === 'Edit title'" v-model="mainTitle"  type="text"/>
+        <button class="btn__save" v-if="item === 'Edit title'" @click="changeTitle">✔</button>
         <input class="item__input" v-if="item === 'Edit text'" v-model="mainText"  type="text"/>
         <button class="btn__save" v-if="item === 'Edit text'" @click="changeText">✔</button>
         <input class="item__input" v-if="item === 'Image link'" v-model="mainImage"  type="text"/>
@@ -22,6 +24,12 @@
         <button class="btn__save" v-if="item === 'Image link 2'" @click="changeBenefitSecond">✔</button>
         <input class="item__input" v-if="item === 'Image link 3'" v-model="benefitThird"  type="text"/>
         <button class="btn__save" v-if="item === 'Image link 3'" @click="changeBenefitThird">✔</button>
+        <input class="item__input" v-if="item === 'Link 1'" v-model="flink1"  type="text"/>
+        <button class="btn__save" v-if="item === 'Link 1'" @click="changeflink1">✔</button>
+        <input class="item__input" v-if="item === 'Link 2'" v-model="flink2"  type="text"/>
+        <button class="btn__save" v-if="item === 'Link 2'" @click="changeflink2">✔</button>
+        <input class="item__input" v-if="item === 'Link 3'" v-model="flink3"  type="text"/>
+        <button class="btn__save" v-if="item === 'Link 3'" @click="changeflink3">✔</button>
       </div>
     </div>
   </div>
@@ -42,11 +50,33 @@ export default {
     const checked = ref(true);
     const color = ref(store.state.headerColor);
     const isOpen = ref(false);
+    const mainTitle = ref(store.state.mainTitle);
     const mainText = ref(store.state.mainText);
     const mainImage = ref(store.state.mainImage);
     const benefitFirst = ref(store.state.benefitsImageFirst);
     const benefitSecond = ref(store.state.benefitsImageSecond);
     const benefitThird = ref(store.state.benefitsImageThird);
+
+    const flink1 = ref(store.state.footerLink1);
+    const flink2 = ref(store.state.footerLink2);
+    const flink3 = ref(store.state.footerLink3);
+
+    const changeflink1 = () => {
+      store.dispatch("setFooterLink1", flink1.value);
+    }
+    const changeflink2 = () => {
+      store.dispatch("setFooterLink2", flink2.value);
+    }
+    const changeflink3 = () => {
+      store.dispatch("setFooterLink3", flink3.value);
+    }
+
+
+    const changeTitle = () => {
+      store.dispatch("setMainTitle", mainTitle.value);
+      if (props.title === "Main") store.dispatch("setMain", !store.state.isMain)
+      if (props.title === "Main") store.dispatch("setMain", !store.state.isMain)
+    }
 
     const isTouched = () => {
       if (props.title === "Header") store.dispatch("setHeader", !store.state.isHeader)
@@ -112,7 +142,15 @@ export default {
       benefitThird,
       changeBenefitFirst,
       changeBenefitSecond,
-      changeBenefitThird
+      changeBenefitThird,
+      mainTitle,
+      changeTitle,
+      flink1,
+      flink2,
+      flink3,
+      changeflink1,
+      changeflink2,
+      changeflink3,
     }
   }
 }

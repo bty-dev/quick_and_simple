@@ -10,13 +10,12 @@ const store = createStore({
             headerColor: "#1e1a1b",
             isMain: true,
             mainImage: "",
+            mainTitle: "Main title",
             mainText: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dolor dolorem, ex libero magni nam veniam voluptate? Quo repellat sunt tempore vitae voluptas. Dolores eos pariatur perferendis quia rerum vitae? ",
-            footerLinks: [
-                "https://www.google.com/search?q=adas",
-                "https://www.google.com/search?q=adas",
-                "https://www.google.com/search?q=adas",
-            ],
-            benefitsImageFirst: "https://img.freepik.com/premium-photo/british-shorthair-front-white-wall_191971-17751.jpg",
+            footerLink1: "https://www.google.com/search?q=adas",
+            footerLink2: "https://www.google.com/search?q=adas",
+            footerLink3: "https://www.google.com/search?q=adas",
+            benefitsImageFirst: "",
             benefitsImageSecond: "",
             benefitsImageThird: "",
             benefitsVisible: true,
@@ -38,6 +37,9 @@ const store = createStore({
         getFooterLinks(state) {
             return state.footerLinks;
         },
+        getMainTitle(state) {
+            return state.mainTitle;
+        },
         getMainText(state) {
             return state.mainText;
         },
@@ -52,7 +54,16 @@ const store = createStore({
         },
         getLogo(state) {
             return state.logo;
-        }
+        },
+        getFooterLink1(state) {
+            return state.footerLink1;
+        },
+        getFooterLink2(state) {
+            return state.footerLink2;
+        },
+        getFooterLink3(state) {
+            return state.footerLink3;
+        },
     },
     mutations: {
         setAuth(state, payload) {
@@ -69,6 +80,9 @@ const store = createStore({
         },
         setFooterLinks(state, payload) {
             state.footerLinks = payload;
+        },
+        setMainTitle(state, payload) {
+          state.mainTitle = payload;
         },
         setMainText(state, payload) {
             state.mainText = payload;
@@ -90,7 +104,16 @@ const store = createStore({
         },
         setLogo(state, payload) {
             state.logo = payload;
-        }
+        },
+        setFooterLink1(state, payload) {
+            state.footerLink1 = payload;
+        },
+        setFooterLink2(state, payload) {
+            state.footerLink2 = payload;
+        },
+        setFooterLink3(state, payload) {
+            state.footerLink3 = payload;
+        },
     },
     actions: {
         setAuth(context, payload) {
@@ -107,6 +130,9 @@ const store = createStore({
         },
         setFooterLinks(context, payload) {
             context.commit("setFooterLinks", payload);
+        },
+        setMainTitle(context, payload) {
+            context.commit("setMainTitle", payload);
         },
         setMainText(context, payload) {
             context.commit("setMainText", payload);
@@ -128,7 +154,17 @@ const store = createStore({
         },
         setLogo(context, payload) {
             context.commit("setLogo", payload);
-        }
+        },
+        setFooterLink1(context, payload) {
+            context.commit("setFooterLink1", payload);
+        },
+        setFooterLink2(context, payload) {
+            context.commit("setFooterLink2", payload);
+        },
+        setFooterLink3(context, payload) {
+            context.commit("setFooterLink3", payload);
+        },
+
     }
 })
 

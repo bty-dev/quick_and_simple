@@ -4,11 +4,6 @@
       <div class="content">
         <div class="title">My projects</div>
         <div class="list">
-          <div class="card">
-            <div class="card_desc">
-              Timer test project
-            </div>
-          </div>
           <div @click="toggleOpen" class="card add__card">
             ＋
           </div>
@@ -22,9 +17,6 @@
           <div class="template__list">
             <div class="template__item" @click="goToDemo">
               Default template
-            </div>
-            <div class="template__item">
-              Bty's template
             </div>
           </div>
         </div>

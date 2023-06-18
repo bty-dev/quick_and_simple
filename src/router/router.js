@@ -62,7 +62,8 @@ router.beforeEach(async (to, from) => {
     if (
         !store.getters.getIsAuth &&
         to.name !== 'Login' &&
-        to.name !== 'RegisterPage'
+        to.name !== 'RegisterPage' &&
+        to.name !== 'Start'
     ) {
         return { name: 'Login' }
     }

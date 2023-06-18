@@ -20,7 +20,7 @@ export default {
   setup() {
 
     const linkHandler = () => {
-      window.open("https://vue-test-project-pi.vercel.app/");
+      window.open("https://648f026372e8802ee26e034f--fanciful-crostata-c93b83.netlify.app/");
     }
 
     return {
@@ -75,7 +75,7 @@ export default {
   margin-right: 30px;
 }
 .card:nth-last-child(1) {
-  background: url("../assets/preview_timer.png") no-repeat;
+
 }
 .card:hover {
   box-shadow: 0 5px 15px rgba(255, 255, 255, .4);

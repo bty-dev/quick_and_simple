@@ -3,17 +3,17 @@
     <div class="header" v-if="this.$store.state.isHeader" :style="{'background-color': headerColor.value}">
       <img class="logo" :src="this.$store.state.logo" alt="Logo">
       <div class="menu__item">
-        Menu item
+
       </div>
     </div>
     <div class="content" v-if="this.$store.state.isMain">
       <div class="main__col">
         <div class="content__title">
-          Main title
+          {{mainTitle}}
         </div>
         <div class="content__subtitle">{{mainText}}</div>
         <button class="btn__call">
-          <a href="tel:+9190123456" style="color: #fff; text-decoration: none">Call us!</a>
+          <a href="tel:+9190123456" style="text-decoration: none">Call us!</a>
         </button>
       </div>
       <div class="main__col">
@@ -31,7 +31,7 @@
     </div>
     <div class="footer">
       <div class="footer__desc">
-        Footer example
+        You can find us there
       </div>
       <div class="footer__links">
         <a class="footer__link" target="_blank" v-for="link in footerLinks" :href="link">
@@ -45,9 +45,9 @@
     <div @click="goBack" class="back" v-if="isBackVisible" id="back__mark"><img class="arrow" src="../assets/arrow.png"/></div>
     <div v-if="isOpen" class="modal" id="modal">
       <div class="modal__content">
-       <Accordion title="Header" :items="benefitsItems"/>
+       <Accordion title="Header" :items="headerItems"/>
        <Accordion title="Main" :items="mainItems"/>
-       <Accordion title="Benefits" :items="benefitsItems"/>
+       <Accordion title="Partners" :items="benefitsItems"/>
        <Accordion title="Footer" :items="footerItems"/>
         <button class="download" @click="download">Download file</button>
       </div>
@@ -69,9 +69,10 @@ export default {
   const store = useStore();
   const router = useRouter();
 
-  const footerLinks = ref(store.state.footerLinks);
+  const footerLinks = ref([store.state.footerLink1, store.state.footerLink2, store.state.footerLink3]);
 
   const mainText = ref(store.getters.getMainText);
+  const mainTitle = ref(store.getters.getMainTitle);
   const isOpen = ref(false);
   const toggleOpen = () => {
     isOpen.value = !isOpen.value;
@@ -80,13 +81,16 @@ export default {
   const isBenefits = ref(store.state.benefitsVisible);
 
   const benefitsItems = ref([
-    "Enable block", "Color pick", "Image link 1", "Image link 2", "Image link 3", "Logo pick"
+    "Enable block", "Color pick", "Image link 1", "Image link 2", "Image link 3"
   ])
+    const headerItems = ref([
+      "Enable block", "Color pick", "Logo pick"
+    ])
   const footerItems = ref([
-    "Enable block", "Color pick", "Link"
+    "Enable block", "Color pick", "Link 1", "Link 2", "Link 3",
   ])
   const mainItems = ref([
-    "Enable block", "Color pick", "Edit text", "Image link"
+    "Enable block", "Color pick", "Edit title", "Edit text", "Image link"
   ])
 
   const headerColor = ref(store.state.headerColor);
@@ -97,21 +101,25 @@ export default {
   const logo = ref(store.state.logo);
   onUpdated(() => {
     headerColor.value = ref(store.state.headerColor);
+    mainTitle.value = ref(store.state.mainTitle);
     mainText.value = ref(store.state.mainText);
     mainImage.value = ref(store.state.mainImage);
     benefitFirst.value = ref(store.state.benefitsImageFirst);
     benefitSecond.value = ref(store.state.benefitsImageSecond)
     benefitThird.value = ref(store.state.benefitsImageThird);
     logo.value = ref(store.state.logo);
+    footerLinks.value = [store.state.footerLink1, store.state.footerLink2, store.state.footerLink3];
   })
   onMounted(() => {
     headerColor.value = ref(store.state.headerColor);
+    mainTitle.value = ref(store.state.mainTitle);
     mainText.value = ref(store.state.mainText);
     mainImage.value = ref(store.state.mainImage);
     benefitFirst.value = ref(store.state.benefitsImageFirst);
     benefitSecond.value = ref(store.state.benefitsImageSecond)
     benefitThird.value = ref(store.state.benefitsImageThird);
     logo.value = ref(store.state.logo);
+    footerLinks.value = [store.state.footerLink1, store.state.footerLink2, store.state.footerLink3];
   })
 
   const goBack = () => {
@@ -173,10 +181,12 @@ export default {
     isBackVisible,
     mainItems,
     mainText,
+    mainTitle,
     mainImage,
     benefitFirst,
     benefitSecond,
-    benefitThird
+    benefitThird,
+    headerItems,
   }
 }
 }
@@ -405,13 +415,21 @@ export default {
   padding: 15px 15px;
   font-size: 22px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;;
+  transition: all 0.2s ease-in-out;
 }
 .btn__call:hover {
   background-color: #fff;
   border-color: transparent;
   color: #000;
   box-shadow: 0 5px 15px rgba(255, 255, 255, .4);
+}
+.btn__call > a {
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+.btn__call:hover > a {
+  color: #000;
 }
 .benefits__title {
   height: unset;
